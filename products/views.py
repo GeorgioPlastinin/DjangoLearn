@@ -1,24 +1,19 @@
 from django.shortcuts import render
+import os
+import json
+
+MODULE_DIR = os.path.dirname(__file__)
 
 
 def index(request):
-    return render(request, 'products/index.html')
+    context = {"title": "GeekShop - главная"}
+    return render(request, 'products/index.html', context)
 
 
 def products(request):
-    return render(request, 'products/products.html')
-
-
-def test_context(request):
-    context = {
-        'title': 'geekshop',
-        'header': 'Glad to See YOU!',
-        'username': 'Gosha',
-        'products': [
-            {'name': 'Худи черного цвета с монограммами adidas Originals', 'price': 6090},
-            {'name': 'Синяя куртка The North Face', 'price': 23725},
-            {'name': 'Коричневый спортивный oversized-топ ASOS DESIGN', 'price': 3390},
-        ]
-    }
-    return render(request, 'products/test_context.html', context)
-
+    context = {"title": "GeekShop - каталог"}
+    file_path = os.path.join(MODULE_DIR, "fixtures/goods.json")
+    file_path2 = os.path.join(MODULE_DIR, "fixtures/categories.json")
+    context["products"] = json.load(open(file_path, encoding='UTF-8'))
+    context["categories"] = json.load(open(file_path2, encoding='UTF-8'))
+    return render(request, 'products/products.html', context)

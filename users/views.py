@@ -44,8 +44,6 @@ def profile(request):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('users:profile'))
-        else:
-            print(form.errors)
     else:
         form = UserProfileForm(instance=user)
     context = {
